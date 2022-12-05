@@ -9,7 +9,9 @@ export default function Home() {
   const [startDate, setStartDate] = useState(dayjs().toDate());
   const [endDate, setEndDate] = useState(dayjs().add(2, "hours").toDate());
 
-  const ecart = dayjs(startDate).diff(dayjs(endDate));
+  const ecart = dayjs
+    .duration(dayjs(endDate).diff(dayjs(startDate)))
+    .format("HH:mm");
 
   const formattedStartDate = useMemo(
     () => dayjs(startDate).format("HH:mm") || "?",
@@ -21,7 +23,7 @@ export default function Home() {
   );
   return (
     <div>
-      <h1 style={{ textAlign: "center" }}>Il est {dayjs().format("HH:MM")}</h1>
+      <h1 style={{ textAlign: "center" }}>Il est {dayjs().format("HH:mm")}</h1>
       <div style={{ maxWidth: "50%", margin: "auto" }}>
         <p>Heure début</p>
         <TimeInput value={startDate} onChange={setStartDate} />
@@ -31,7 +33,7 @@ export default function Home() {
 
       <h2 style={{ textAlign: "center" }}>
         Entre {formattedStartDate} et {formattedEndDate} il y a un écart de{" "}
-        {dayjs.duration(dayjs(endDate).diff(dayjs(startDate))).format("HH:mm")}
+        {ecart}
       </h2>
     </div>
   );
